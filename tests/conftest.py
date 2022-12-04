@@ -8,7 +8,7 @@ def aoc_input(filename: str):
 
     # Support for test execution in IDEs that
     # uses the test/ folder as working directory
-    if cwd.endswith('/tests'):
+    if cwd.endswith("/tests"):
         path = f"inputs/{filename}"
     else:
         path = f"tests/inputs/{filename}"
