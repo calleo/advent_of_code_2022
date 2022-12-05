@@ -3,14 +3,14 @@ import pytest
 
 
 @pytest.mark.parametrize("filename", ("day3_a_sample.txt",))
-def test_day3_a_sample(aoc_input):
-    actual = day3_a(data=aoc_input)
+def test_day3_a_sample(aoc_input_strip):
+    actual = day3_a(data=aoc_input_strip)
     assert actual == 157
 
 
 @pytest.mark.parametrize("filename", ("day3.txt",))
-def test_day3_a(aoc_input):
-    actual = day3_a(data=aoc_input)
+def test_day3_a(aoc_input_strip):
+    actual = day3_a(data=aoc_input_strip)
     assert actual == 8088
 
 
@@ -21,12 +21,12 @@ def test_priority(item: str, expected):
 
 
 @pytest.mark.parametrize("filename", ("day3_b_sample.txt",))
-def test_day3_b_sample(aoc_input):
-    actual = day3_b(data=aoc_input)
+def test_day3_b_sample(aoc_input_strip):
+    actual = day3_b(data=aoc_input_strip)
     assert actual == 70
 
 
 @pytest.mark.parametrize("filename", ("day3.txt",))
-def test_day3_b(aoc_input):
-    actual = day3_b(data=aoc_input)
+def test_day3_b(aoc_input_strip):
+    actual = day3_b(data=aoc_input_strip)
     assert actual == 2522

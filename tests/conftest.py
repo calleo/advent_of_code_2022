@@ -14,4 +14,9 @@ def aoc_input(filename: str):
         path = f"tests/inputs/{filename}"
 
     with open(path) as input_file:
-        yield [row.strip() for row in input_file.readlines()]
+        yield [row for row in input_file.readlines()]
+
+
+@pytest.fixture
+def aoc_input_strip(aoc_input):
+    yield [row.strip() for row in aoc_input]
