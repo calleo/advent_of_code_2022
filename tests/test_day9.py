@@ -14,8 +14,8 @@ def test_day9_a_sample(aoc_input_strip):
 @pytest.mark.parametrize("filename", ("day9.txt",))
 def test_day9_a(aoc_input_strip):
     head, tail, actual = day9_a(data=aoc_input_strip)
-    assert head == {'x': -87, 'y': 0}
-    assert tail == {'x': -87, 'y': 1}
+    assert head == {"x": -87, "y": 0}
+    assert tail == {"x": -87, "y": 1}
     assert 5816 < actual < 6490 and actual != 5817
 
 
@@ -33,7 +33,6 @@ def test_day9_end_pos(aoc_input_strip):
     assert (up - down) == -87
 
 
-
 @pytest.mark.parametrize(
     "moves,end_pos,tail_seen",
     [
@@ -47,7 +46,10 @@ def test_day9_end_pos(aoc_input_strip):
 )
 def test_day9_a_small(moves, end_pos, tail_seen):
     head, tail, seen = day9_a(data=moves)
-    assert (head, tail,) == end_pos
+    assert (
+        head,
+        tail,
+    ) == end_pos
     assert seen == tail_seen
 
 
@@ -67,7 +69,6 @@ def test_day9_a_small(moves, end_pos, tail_seen):
         ({"x": 0, "y": 0}, {"x": 0, "y": 2}, False),
         ({"x": 0, "y": 0}, {"x": 2, "y": 0}, False),
         ({"x": 0, "y": 0}, {"x": -2, "y": 0}, False),
-
     ],
 )
 def test_is_adjacent(head, tail, expected):

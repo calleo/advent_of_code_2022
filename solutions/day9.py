@@ -17,17 +17,17 @@ def is_adjacent(head, tail):
 
 
 def day9_a(data: List[str]) -> Tuple[Dict[str, int], Dict[str, int], int]:
-    #seen_head = {}
+    # seen_head = {}
     seen = {}
     moves = [(move.split(" ")[0], int(move.split(" ")[1])) for move in data]
     head = {"x": 0, "y": 0}
     tail = {"x": 0, "y": 0}
-    #count = 0
+    # count = 0
 
     for move in moves:
         for step in range(0, move[1]):
-            #count += 1
-            #if count in (14,):
+            # count += 1
+            # if count in (14,):
             #    pass
             if move[0] == "U":
                 head["y"] += 1
@@ -37,7 +37,7 @@ def day9_a(data: List[str]) -> Tuple[Dict[str, int], Dict[str, int], int]:
                 head["x"] -= 1
             elif move[0] == "R":
                 head["x"] += 1
-            #else:
+            # else:
             #    raise Exception("DFDFD")
 
             if not is_adjacent(head, tail):
@@ -53,7 +53,7 @@ def day9_a(data: List[str]) -> Tuple[Dict[str, int], Dict[str, int], int]:
                     else:
                         tail["x"] -= 1
                 else:
-                    #print(f"Doing diagonal move: {count}")
+                    # print(f"Doing diagonal move: {count}")
                     if head["x"] > tail["x"]:
                         tail["x"] += 1
                     else:
@@ -64,8 +64,8 @@ def day9_a(data: List[str]) -> Tuple[Dict[str, int], Dict[str, int], int]:
                         tail["y"] -= 1
 
             seen[f"{tail['x']}{tail['y']}"] = 1
-            #seen_head[f"{head['x']}{head['y']}"] = 1
+            # seen_head[f"{head['x']}{head['y']}"] = 1
 
-            #assert is_adjacent(head, tail)
+            # assert is_adjacent(head, tail)
 
     return head, tail, sum(seen.values())
