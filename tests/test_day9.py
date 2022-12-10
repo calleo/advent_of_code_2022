@@ -10,27 +10,10 @@ def test_day9_a_sample(aoc_input_strip):
     assert actual == 13
 
 
-@pytest.mark.skip("Not working as planned :(")
 @pytest.mark.parametrize("filename", ("day9.txt",))
 def test_day9_a(aoc_input_strip):
     head, tail, actual = day9_a(data=aoc_input_strip)
-    assert head == {"x": -87, "y": 0}
-    assert tail == {"x": -87, "y": 1}
-    assert 5816 < actual < 6490 and actual != 5817
-
-
-@pytest.mark.parametrize("filename", ("day9.txt",))
-def test_day9_end_pos(aoc_input_strip):
-    up = 0
-    down = 0
-    for move in aoc_input_strip:
-        m = move.split(" ")
-        if m[0] == "R":
-            up += int(m[1])
-        if m[0] == "L":
-            down += int(m[1])
-    # {'x': -87, 'y': 0}
-    assert (up - down) == -87
+    assert actual == 5858
 
 
 @pytest.mark.parametrize(
@@ -42,6 +25,15 @@ def test_day9_end_pos(aoc_input_strip):
         (["U 2", "L 1", "D 1"], ({"x": -1, "y": 1}, {"x": 0, "y": 1}), 2),
         (["U 2", "L 0", "D 0"], ({"x": 0, "y": 2}, {"x": 0, "y": 1}), 2),
         (["D 2", "L 2", "D 1", "R 2"], ({"x": 0, "y": -3}, {"x": -1, "y": -2}), 3),
+        (["U 2", "L 2"], ({"x": -2, "y": 2}, {"x": -1, "y": 2}), 3),
+        (["U 2", "R 2"], ({"x": 2, "y": 2}, {"x": 1, "y": 2}), 3),
+        (["D 2", "L 2"], ({"x": -2, "y": -2}, {"x": -1, "y": -2}), 3),
+        (["D 2", "R 2"], ({"x": 2, "y": -2}, {"x": 1, "y": -2}), 3),
+        (["U 1", "R 2"], ({"x": 2, "y": 1}, {"x": 1, "y": 1}), 2),
+        (["U 1", "L 2"], ({"x": -2, "y": 1}, {"x": -1, "y": 1}), 2),
+        (["D 1", "R 2"], ({"x": 2, "y": -1}, {"x": 1, "y": -1}), 2),
+        (["D 1", "L 2"], ({"x": -2, "y": -1}, {"x": -1, "y": -1}), 2),
+        (["R 1", "U 13", "R 10", "D 12"], ({"x": 11, "y": 1}, {"x": 11, "y": 2}), 33),
     ],
 )
 def test_day9_a_small(moves, end_pos, tail_seen):
