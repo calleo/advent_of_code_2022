@@ -19,21 +19,6 @@ def test_day10_a_sample(aoc_input_strip):
     assert sum == 13140
 
 
-@pytest.mark.parametrize(
-    "instructions,cycles,expected",
-    [(["noop"], 1, 1), (["addx 3"], 2, 4), (["noop", "addx 3"], 2, 1)],
-)
-def test_day9_a_small(instructions, cycles, expected):
-    actual = day10_a(data=instructions, cycles=cycles)
-    assert actual == expected
-
-
-@pytest.mark.parametrize("filename", ("day10_sample.txt",))
-def test_day10_a_sample_foo(aoc_input_strip):
-    actual = day10_a(data=aoc_input_strip, cycles=220)
-    assert actual == 18
-
-
 @pytest.mark.parametrize("filename", ("day10.txt",))
 def test_day10_a(aoc_input_strip):
     sum = 0
