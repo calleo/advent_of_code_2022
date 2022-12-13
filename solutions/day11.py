@@ -1,11 +1,12 @@
 from typing import List, Callable, Dict, Any
 import yaml
 from dataclasses import dataclass
-from datetime import datetime
+from functools import reduce
 
 
 @dataclass
 class Monkey:
+    name: str
     items: List[int]
     operation: Callable
     divisor: int
@@ -13,28 +14,22 @@ class Monkey:
     worrying_divisor: int
     inspections: int = 0
 
-    def debug(self, msg: str):
-        print(f"{datetime.now().isoformat()[:19]} Debug: {msg}")
-
     def throw(self, monkeys: List[Any]):
         while len(self.items) > 0:
             item = self.items.pop()
-
-            self.debug("Operation Start")
             new_item = self.operation(old=item)
-            self.debug("Operation End")
 
-            if self.worrying_divisor != 1:
+            # Ugly!
+            if self.worrying_divisor == 3:
                 new_item = int(new_item / self.worrying_divisor)
+            else:
+                new_item = new_item % self.worrying_divisor
 
-            # self.debug("Divisor Start")
-            recipient = self.recipients[new_item % self.divisor == 0]
-            self.debug("Divisor End")
+            remainder = new_item % self.divisor
 
-            # self.debug("Receive Start")
-            monkeys[recipient].receive(new_item)
-            # self.debug("Receive End")
-
+            recipient = self.recipients[remainder == 0]
+            rec_monkey = monkeys[recipient]
+            rec_monkey.receive(item)
             self.inspections += 1
 
     def receive(self, item: int):
@@ -46,33 +41,27 @@ class MonkeyBusiness:
         self.monkeys = monkeys
 
     def play(self, rounds: int):
-        for round in range(rounds):
-            for monkey in self.monkeys:
+        for _ in range(rounds):
+            for index, monkey in enumerate(self.monkeys):
                 monkey.throw(monkeys=self.monkeys)
-            if round % 10 == 0:
-                print(f"Completed round: {round}")
 
 
-def create_operation(operation, value):
-    def _operation(old):
+def create_operation(operation, value) -> Callable:
+    # Ugly!
+    def _operation(old: int) -> int:
         if value == "old":
-            _value = old
+            return int(old) * int(old)
         else:
             _value = int(value)
-        if operation == "*":
-            # This take a very long time!!
-            print(f"Multiplying")
-            return old * _value
-        elif operation == "+":
-            print(f"Adding")
-            return old + _value
-        else:
-            raise Exception(f"Unknown operation {operation}")
+            if operation == "*":
+                return int(value) * _value
+            elif operation == "+":
+                return int(value) + _value
 
     return _operation
 
 
-def parse_config(data: List[str], worrying_divisor: int) -> List[Monkey]:
+def parse_config(data: List[str], worrying_divisor: int = None) -> List[Monkey]:
     data = [row.replace("  If ", "If ") for row in data]
     config = yaml.safe_load("\n".join(data))
     monkeys = []
@@ -82,7 +71,7 @@ def parse_config(data: List[str], worrying_divisor: int) -> List[Monkey]:
             items = [int(item) for item in values["Starting items"].split(",")]
             items.reverse()
         else:
-            items = [values["Starting items"]]
+            items = [int(values["Starting items"])]
 
         op_parts = values["Operation"].split(" ")
         operation = create_operation(
@@ -95,6 +84,7 @@ def parse_config(data: List[str], worrying_divisor: int) -> List[Monkey]:
         }
         monkeys.append(
             Monkey(
+                name=monkey,
                 items=items,
                 operation=operation,
                 divisor=divisor,
@@ -103,10 +93,18 @@ def parse_config(data: List[str], worrying_divisor: int) -> List[Monkey]:
             )
         )
 
+    if worrying_divisor is None:
+        super_divisor = reduce(lambda x, y: x * y, [m.divisor for m in monkeys])
+
+        for monkey in monkeys:
+            monkey.worrying_divisor = super_divisor
+
     return monkeys
 
 
-def calc_monkey_business(data: List[str], rounds: int, worrying_divisor: int) -> int:
+def calc_monkey_business(
+    data: List[str], rounds: int, worrying_divisor: int = None
+) -> int:
     monkeys = parse_config(data=data, worrying_divisor=worrying_divisor)
     game = MonkeyBusiness(monkeys=monkeys)
     game.play(rounds=rounds)
@@ -123,9 +121,4 @@ def day11_a(data: List[str]):
 
 
 def day11_b(data: List[str]):
-    return calc_monkey_business(data=data, rounds=10_000, worrying_divisor=1)
-
-
-if __name__ == "__main__":
-    with open("tests/inputs/day11_sample.txt") as file:
-        actual = day11_b(data=file.readlines())
+    return calc_monkey_business(data=data, rounds=10_000)

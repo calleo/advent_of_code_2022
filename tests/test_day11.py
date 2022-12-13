@@ -14,8 +14,13 @@ def test_day11_a(aoc_input):
     assert actual == 58322
 
 
-@pytest.mark.skip
 @pytest.mark.parametrize("filename", ("day11_sample.txt",))
 def test_day11_b_sample(aoc_input):
     actual = day11_b(data=aoc_input)
-    assert actual == 2713310158
+    assert actual == 2_713_310_158
+
+
+@pytest.mark.parametrize("filename", ("day11.txt",))
+def test_day11_b_sample(aoc_input):
+    actual = day11_b(data=aoc_input)
+    assert actual == 13_937_702_909

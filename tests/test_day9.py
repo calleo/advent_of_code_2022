@@ -1,18 +1,36 @@
 import pytest
-from solutions.day9 import day9_a, is_adjacent
+from solutions.day9 import day9, is_adjacent
 
 
 @pytest.mark.parametrize("filename", ("day9_sample.txt",))
 def test_day9_a_sample(aoc_input_strip):
-    head, tail, actual = day9_a(data=aoc_input_strip)
+    head, tail, actual = day9(data=aoc_input_strip, tails=1)
     assert head == {"x": 2, "y": 2}
     assert tail == {"x": 1, "y": 2}
     assert actual == 13
 
 
+@pytest.mark.parametrize("filename", ("day9_sample.txt",))
+def test_day9_b_sample(aoc_input_strip):
+    head, tail, actual = day9(data=aoc_input_strip, tails=10)
+    assert actual == 1
+
+
+@pytest.mark.parametrize("filename", ("day9_sample_large.txt",))
+def test_day9_b_sample(aoc_input_strip):
+    head, tail, actual = day9(data=aoc_input_strip, tails=9)
+    assert actual == 36
+
+
+@pytest.mark.parametrize("filename", ("day9.txt",))
+def test_day9_b_sample(aoc_input_strip):
+    head, tail, actual = day9(data=aoc_input_strip, tails=9)
+    assert actual == 2602
+
+
 @pytest.mark.parametrize("filename", ("day9.txt",))
 def test_day9_a(aoc_input_strip):
-    head, tail, actual = day9_a(data=aoc_input_strip)
+    head, tail, actual = day9(data=aoc_input_strip, tails=9)
     assert actual == 5858
 
 
@@ -37,7 +55,7 @@ def test_day9_a(aoc_input_strip):
     ],
 )
 def test_day9_a_small(moves, end_pos, tail_seen):
-    head, tail, seen = day9_a(data=moves)
+    head, tail, seen = day9(data=moves, tails=1)
     assert (
         head,
         tail,
