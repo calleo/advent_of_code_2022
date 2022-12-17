@@ -33,15 +33,15 @@ def day12_b(data: List[str]) -> int:
     end = None, None
 
     for y, row in enumerate(board):
-        if y == 0 or y == len(board)-1:
+        if y == 0 or y == len(board) - 1:
             for x, col in enumerate(row):
-                if col in [START, ord('a')]:
+                if col in [START, ord("a")]:
                     starts.append((x, y))
         else:
-            if row[0] in [START, ord('a')]:
+            if row[0] in [START, ord("a")]:
                 starts.append((0, y))
-            if row[-1] in [START, ord('a')]:
-                starts.append((len(row)-1, y))
+            if row[-1] in [START, ord("a")]:
+                starts.append((len(row) - 1, y))
 
         if END in row:
             end = (row.index(END), y)
@@ -51,7 +51,9 @@ def day12_b(data: List[str]) -> int:
     return min(filter(None, solutions))
 
 
-def solve(board: List[List[int]], start: Tuple[int, int], end: Tuple[int, int]) -> Optional[int]:
+def solve(
+    board: List[List[int]], start: Tuple[int, int], end: Tuple[int, int]
+) -> Optional[int]:
     start = Path(path=[start], failed=False, complete=False)
     incomplete = [start]
     complete = []

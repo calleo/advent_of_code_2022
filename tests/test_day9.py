@@ -30,7 +30,7 @@ def test_day9_b_sample(aoc_input_strip):
 
 @pytest.mark.parametrize("filename", ("day9.txt",))
 def test_day9_a(aoc_input_strip):
-    head, tail, actual = day9(data=aoc_input_strip, tails=9)
+    head, tail, actual = day9(data=aoc_input_strip, tails=1)
     assert actual == 5858
 
 
